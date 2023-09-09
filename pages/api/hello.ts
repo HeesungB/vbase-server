@@ -9,6 +9,12 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  if (!req.body.name) {
+    return res.status(400).json({
+      key: ""
+    });
+  }
+
   if(req.query["key"]) {
     const keyValue = req.query["key"];
 
