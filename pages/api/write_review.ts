@@ -14,6 +14,12 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
+    await fs.access(rootPath, (fs.constants || fs).R_OK | (fs.constants || fs).W_OK);
+  } catch {
+    await fs.mkdir(rootPath, { recursive: true });
+  }
+
+  try {
     const reviewFile = await fs.readFile(path.join(rootPath, jsonPath), 'utf8')
     const reviewJson: Proposal[] = JSON.parse(reviewFile);
 

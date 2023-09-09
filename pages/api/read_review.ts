@@ -13,6 +13,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  try {
+    await fs.access(rootPath, (fs.constants || fs).R_OK | (fs.constants || fs).W_OK);
+  } catch {
+    await fs.mkdir(rootPath, { recursive: true });
+  }
+
   const jsonData = await fs.readFile(path.join(rootPath, jsonPath), 'utf8')
 
   return res.status(200).json({file: JSON.stringify(jsonData)});
