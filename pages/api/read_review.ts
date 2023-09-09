@@ -15,7 +15,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const jsonData = fs.readFileSync(path.join(serverRuntimeConfig.PROJECT_ROOT, jsonPath), 'utf8')
+  const jsonData = fs.readFileSync(path.join(process.cwd(), jsonPath), 'utf8')
 
   return res.status(200).json({file: JSON.stringify(jsonData)});
 }

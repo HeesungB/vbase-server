@@ -16,11 +16,11 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method === 'POST') {
-    const reviewFile = fs.readFileSync(path.join(serverRuntimeConfig.PROJECT_ROOT, jsonPath), 'utf8')
+    const reviewFile = fs.readFileSync(path.join(process.cwd(), jsonPath), 'utf8')
     const reviewJson: Proposal[] = JSON.parse(reviewFile);
 
     const inputData = [...reviewJson]
-    fs.writeFileSync(path.join(serverRuntimeConfig.PROJECT_ROOT, jsonPath), JSON.stringify(inputData),'utf8')
+    fs.writeFileSync(path.join(process.cwd(), jsonPath), JSON.stringify(inputData),'utf8')
 
     return res.status(200).json({file: JSON.stringify(inputData)});
   }
