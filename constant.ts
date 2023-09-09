@@ -1,1 +1,1 @@
-export const jsonPath = 'pages/api/review.json';
+export const jsonPath = 'public/review.json';

@@ -11,7 +11,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  fs.writeFileSync(path.join(process.cwd(), jsonPath), JSON.stringify([]),'utf8')
+  fs.writeFileSync(path.join(serverRuntimeConfig.PROJECT_ROOT, jsonPath), JSON.stringify([]),'utf8')
 
   return res.status(200)
 }
