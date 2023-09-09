@@ -14,9 +14,9 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   try {
-    await fs.access(rootPath, (fs.constants || fs).R_OK | (fs.constants || fs).W_OK);
+    await fs.access(path.join(rootPath, jsonPath), (fs.constants || fs).R_OK | (fs.constants || fs).W_OK);
   } catch {
-    await fs.mkdir(rootPath, { recursive: true });
+    await fs.mkdir(path.join(rootPath, jsonPath), { recursive: true });
   }
 
   try {
