@@ -38,9 +38,7 @@ export default async function handler(
     await fs.writeFile(path.join(rootPath, jsonPath), JSON.stringify(inputData),'utf8')
 
     return res.status(200)
+  } catch {
+    return res.status(400)
   }
-
-  return res.status(400)
-
-
 }
