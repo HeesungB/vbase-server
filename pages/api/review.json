@@ -1,0 +1,16 @@
+[
+  {
+    "chainId": "cosmoshub",
+    "proposalId":"test",
+    "review":[
+      {
+        "address": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
+        "validatorAddress": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
+        "review": "good",
+        "voteResult": "yes"
+      }
+    ]
+  },
+]
+
+
