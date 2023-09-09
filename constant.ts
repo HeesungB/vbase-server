@@ -1,11 +1,3 @@
-import getConfig from "next/config";
-
-const { serverRuntimeConfig } = getConfig();
-
-export const jsonPath = "pages/api/review.json";
-export const rootPath =
-  process.env.VERCEL === "1" ? "/tmp" : serverRuntimeConfig.PROJECT_ROOT;
-
 export const chainInfo = {
   rpc: "https://rpc-osmosis.keplr.app",
   rest: "https://lcd-osmosis.keplr.app",

@@ -40,6 +40,7 @@ export const VoteModal = ({
   proposal?: ResponseProposal;
 }) => {
   const [voteOption, setVoteOption] = useState<VoteOption>("yes");
+  const [review, setReview] = useState("");
 
   return (
     <Modal
@@ -155,6 +156,7 @@ export const VoteModal = ({
         <textarea
           rows={4}
           style={{ width: "100%", background: "#1D1D1F", color: "#F2F2F6" }}
+          onChange={(e) => setReview(e.target.value)}
         ></textarea>
       </div>
 
@@ -212,10 +214,16 @@ export const VoteModal = ({
                   gas: Math.floor(gasUsed * 1.5).toString(),
                 });
               }
+
+              await fetch(
+                `/api/write_review?chainId=${chainInfo.chainId}&proposalId=${proposalId}&address=${voter}&validatorAddress=${voter}&review=${review}&voteResult=${voteOption}`
+              );
             } catch (e) {
               if (e instanceof Error) {
                 console.log(e.message);
               }
+            } finally {
+              closeModal();
             }
           }}
         >

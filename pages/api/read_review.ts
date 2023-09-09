@@ -1,32 +1,14 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
-
-import { promises as fs } from 'fs';
-import path from 'path'
-import {jsonPath, rootPath} from "@/constant";
-
-type Data = {
-  file: string
-}
+import { NextApiRequest, NextApiResponse } from "next";
+import { sql } from "@vercel/postgres";
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+  request: NextApiRequest,
+  response: NextApiResponse
 ) {
-  // const jsonData = await fs.readFile(path.join(rootPath, jsonPath), 'utf8')
-  const jsonData = [
-    {
-      "chainId": "cosmoshub",
-      "proposalId":"test",
-      "review":[
-        {
-          "address": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
-          "validatorAddress": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
-          "review": "good",
-          "voteResult": "yes"
-        }
-      ]
-    }
-  ]
-  return res.status(200).json({file: JSON.stringify(jsonData)});
+  try {
+    const { rows } = await sql`SELECT * FROM reviews`;
+    return response.status(200).json(rows);
+  } catch (error) {
+    return response.status(500).json({ error });
+  }
 }

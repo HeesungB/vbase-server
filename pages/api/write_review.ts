@@ -1,50 +1,20 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
-import { promises as fs } from 'fs';
-import path from 'path'
-import {jsonPath, rootPath} from "@/constant";
-import {Proposal} from "@/types";
-
-type Data = {
-  file: string
-}
+import { NextApiRequest, NextApiResponse } from "next";
+import { sql } from "@vercel/postgres";
 
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
+  request: NextApiRequest,
+  response: NextApiResponse
 ) {
   try {
-    await fs.access(path.join(rootPath, jsonPath), (fs.constants || fs).R_OK | (fs.constants || fs).W_OK);
-  } catch {
-    await fs.mkdir(path.join(rootPath, jsonPath), { recursive: true });
-  }
+    const chainId = request.query.chainId as string;
+    const proposalId = request.query.proposalId as string;
+    const address = request.query.address as string;
+    const validatorAddress = request.query.validatorAddress as string;
+    const review = request.query.review as string;
+    const voteResult = request.query.voteResult as string;
 
-  try {
-    const reviewFile = await fs.readFile(path.join(rootPath, jsonPath), 'utf8')
-    const reviewJson: Proposal[] = JSON.parse(reviewFile);
-
-    if(reviewJson.length === 0) {
-      await fs.writeFile(path.join(rootPath, jsonPath), JSON.stringify([
-        {
-          "chainId": "cosmoshub",
-          "proposalId":"test",
-          "review":[
-            {
-              "address": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
-              "validatorAddress": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
-              "review": "good",
-              "voteResult": "yes"
-            }
-          ]
-        }
-      ]),'utf8')
-    }
-
-    const inputData = [...reviewJson]
-    await fs.writeFile(path.join(rootPath, jsonPath), JSON.stringify(inputData),'utf8')
-
-    return res.status(200)
-  } catch {
-    return res.status(400)
+    await sql`INSERT INTO reviews (chainId, proposalId, address, validatorAddress, review, voteResult) VALUES (${chainId}, ${proposalId} , ${address} , ${validatorAddress} , ${review} , ${voteResult});`;
+  } catch (error) {
+    return response.status(500).json({ error });
   }
 }
