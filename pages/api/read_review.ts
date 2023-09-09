@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs'
 import path from 'path'
 import getConfig from 'next/config'
-import {jsonPath} from "@/constant";
+import {jsonPath, rootPath} from "@/constant";
 const { serverRuntimeConfig } = getConfig()
 
 type Data = {
@@ -15,7 +15,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const jsonData = fs.readFileSync(path.join(process.cwd(), jsonPath), 'utf8')
+  const jsonData = fs.readFileSync(path.join(rootPath, jsonPath), 'utf8')
 
   return res.status(200).json({file: JSON.stringify(jsonData)});
 }

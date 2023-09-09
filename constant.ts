@@ -1,1 +1,2 @@
-export const jsonPath = 'public/review.json';
+export const jsonPath = 'review.json';
+export const rootPath = process.cwd();

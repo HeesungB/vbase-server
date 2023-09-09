@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs'
 import path from 'path'
 import getConfig from 'next/config'
-import {jsonPath} from "@/constant";
+import {jsonPath, rootPath} from "@/constant";
 import {Proposal} from "@/types";
 const { serverRuntimeConfig } = getConfig()
 
@@ -20,7 +20,7 @@ export default async function handler(
     const reviewJson: Proposal[] = JSON.parse(reviewFile);
 
     const inputData = [...reviewJson]
-    fs.writeFileSync(path.join(process.cwd(), jsonPath), JSON.stringify(inputData),'utf8')
+    fs.writeFileSync(path.join(rootPath, jsonPath), JSON.stringify(inputData),'utf8')
 
     return res.status(200).json({file: JSON.stringify(inputData)});
   }
