@@ -6,6 +6,8 @@ import { getProposals } from "@/util/api";
 import { ProposalItem } from "@/components/proposal-item";
 import { Header } from "@/components/header";
 
+import { sql } from "@vercel/postgres";
+
 export default function Home() {
   const [address, setAddress] = useState<string>("");
   const [proposals, setProposals] = useState<ResponseProposal[]>([]);
@@ -15,6 +17,9 @@ export default function Home() {
   }, []);
 
   const init = async () => {
+    const { rows } = await sql`SELECT * FROM posts;`;
+    console.log("row", rows);
+
     const keplr = await getKeplrFromWindow();
 
     if (keplr) {

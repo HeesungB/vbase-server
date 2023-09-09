@@ -1,18 +1,19 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { sql } from "@vercel/postgres";
 
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-
 export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+  request: NextApiRequest,
+  response: NextApiResponse
 ) {
   try {
-    const result =
-      await sql`CREATE TABLE Pets ( Name varchar(255), Owner varchar(255) );`;
-    console.log(result);
-    return res.status(200);
+    const petName = request.query.petName as string;
+    const ownerName = request.query.ownerName as string;
+    if (!petName || !ownerName) throw new Error("Pet and owner names required");
+    await sql`INSERT INTO Pets (Name, Owner) VALUES (${petName}, ${ownerName});`;
   } catch (error) {
-    return res.status(500);
+    return response.status(500).json({ error });
   }
+
+  const pets = await sql`SELECT * FROM Pets;`;
+  return response.status(200).json({ pets });
 }
