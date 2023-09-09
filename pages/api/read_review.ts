@@ -13,13 +13,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  try {
-    await fs.access(path.join(rootPath, jsonPath), (fs.constants || fs).R_OK | (fs.constants || fs).W_OK);
-  } catch {
-    await fs.mkdir(path.join(rootPath, jsonPath), { recursive: true });
-  }
-
-  const jsonData = await fs.readFile(path.join(rootPath, jsonPath), 'utf8')
-
+  // const jsonData = await fs.readFile(path.join(rootPath, jsonPath), 'utf8')
+  const jsonData = [
+    {
+      "chainId": "cosmoshub",
+      "proposalId":"test",
+      "review":[
+        {
+          "address": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
+          "validatorAddress": "cosmos1gah93cq7t477e0p06x76etvqw566g8efvcrzv9",
+          "review": "good",
+          "voteResult": "yes"
+        }
+      ]
+    }
+  ]
   return res.status(200).json({file: JSON.stringify(jsonData)});
 }
