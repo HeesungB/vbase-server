@@ -52,12 +52,6 @@ export default function Home() {
             ⚡️ Cast your vote & write on-chain proposal reviews
           </div>
 
-          <div
-            style={{ fontSize: "18px", fontWeight: "500", marginTop: "4px" }}
-          >
-            🔗 Upload your validator logo and other info on chain
-          </div>
-
           <div>
             <button
               style={{
@@ -70,6 +64,7 @@ export default function Home() {
                 marginTop: "64px",
                 fontSize: "18px",
               }}
+              onClick={init}
             >
               Connect Keplr
             </button>
