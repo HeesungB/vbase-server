@@ -3,7 +3,6 @@ const CopyPlugin = require('copy-webpack-plugin');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
   experimental: { nftTracing: true },
   serverRuntimeConfig: {
     PROJECT_ROOT: __dirname

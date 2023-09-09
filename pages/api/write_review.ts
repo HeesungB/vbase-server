@@ -2,10 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import fs from 'fs'
 import path from 'path'
-import getConfig from 'next/config'
 import {jsonPath, rootPath} from "@/constant";
 import {Proposal} from "@/types";
-const { serverRuntimeConfig } = getConfig()
 
 type Data = {
   file: string
@@ -16,7 +14,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   if (req.method === 'POST') {
-    const reviewFile = fs.readFileSync(path.join(process.cwd(), jsonPath), 'utf8')
+    const reviewFile = fs.readFileSync(path.join(rootPath, jsonPath), 'utf8')
     const reviewJson: Proposal[] = JSON.parse(reviewFile);
 
     const inputData = [...reviewJson]
