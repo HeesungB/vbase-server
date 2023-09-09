@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import fs from 'fs'
+import { promises as fs } from 'fs';
 import path from 'path'
 import {jsonPath, rootPath} from "@/constant";
 
@@ -13,7 +13,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const jsonData = fs.readFileSync(path.join(rootPath, jsonPath), 'utf8')
+  const jsonData = await fs.readFile(path.join(rootPath, jsonPath), 'utf8')
 
   return res.status(200).json({file: JSON.stringify(jsonData)});
 }
